@@ -49,7 +49,7 @@ def pdf_to_txt_file(pdf_dir,pdf_file,txt_dir="",txt_file=None,resolution=100):
     file.close()
 
 
-def convert_pdf_list(pdf_dir,txt_dir, resolution=100):
+def convert_pdf_into_directory(pdf_dir,txt_dir, resolution=100):
 
     pdf_file_names = [f for f in listdir(pdf_dir) if isfile(join(pdf_dir, f))].sort()
     number_of_files = len(pdf_file_names)
@@ -89,5 +89,4 @@ if __name__ == '__main__':
     txt_dir = args.txt_dir
     resolution=arg.resolution
 
-    convert_pdfs_to_txts(pdf_dir,txt_dir,resolution)
-    
+    convert_pdf_into_directory(pdf_dir,txt_dir,resolution)
