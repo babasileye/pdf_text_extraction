@@ -67,8 +67,6 @@ if __name__ == '__main__':
     txt_dir = args.txt_dir
     resolution = args.resolution
 
-    print(pdf_dir,txt_dir,resolution)
-
     pdf_file_names = sorted([f for f in listdir(pdf_dir) if isfile(join(pdf_dir, f))])
     number_of_files = len(pdf_file_names)
     counter = 1
