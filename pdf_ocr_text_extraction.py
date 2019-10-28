@@ -36,7 +36,7 @@ def text_from_pdf_file(pdf_file,resolution=100):
 
 def pdf_to_txt_file(pdf_dir,pdf_file,txt_dir="",txt_file=None,resolution=100):
 
-    document = text_from_pdf_file(join(pdf_dir, pdf_file))
+    document = text_from_pdf_file(pdf_file=join(pdf_dir, pdf_file),resolution=resolution)
 
     if txt_file==None:
         txt_file = pdf_file.replace(".pdf",".txt")
@@ -48,10 +48,28 @@ def pdf_to_txt_file(pdf_dir,pdf_file,txt_dir="",txt_file=None,resolution=100):
         file.write("\n")
     file.close()
 
+    return txt_file
 
-def convert_pdf_into_directory(pdf_dir,txt_dir, resolution=100):
 
-    pdf_file_names = [f for f in listdir(pdf_dir) if isfile(join(pdf_dir, f))].sort()
+if __name__ == '__main__':
+
+    import argparse
+
+    logging.basicConfig(level=logging.INFO)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--pdf_dir", help="pdf files folder e.g. path/to/pdf/files/", type=str)
+    parser.add_argument("-o", "--txt_dir", help="txt files folder e.g. path/to/txt/files/",  type=str, default="")
+    parser.add_argument("-r", "--resolution", help="image resolution", type=int,default=100)
+    args = parser.parse_args()
+
+    pdf_dir = args.pdf_dir
+    txt_dir = args.txt_dir
+    resolution = args.resolution
+
+    print(pdf_dir,txt_dir,resolution)
+
+    pdf_file_names = sorted([f for f in listdir(pdf_dir) if isfile(join(pdf_dir, f))])
     number_of_files = len(pdf_file_names)
     counter = 1
 
@@ -63,30 +81,10 @@ def convert_pdf_into_directory(pdf_dir,txt_dir, resolution=100):
 
             txt_file = pdf_to_txt_file(pdf_dir=pdf_dir,pdf_file=pdf_file,txt_dir=txt_dir, resolution=resolution)
 
-            logging.info("Created txt file: {}".forma(txt_file))
+            logging.info("Created txt file: {}".format(txt_file))
 
         except Exception as e:
 
             logging.info("Exception occurred {}".format(e))
 
         counter+=1
-
-
-if __name__ == '__main__':
-
-    import argparse
-
-
-    logging.basicConfig(level=logging.INFO)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--pdf_dir", help="pdf files folder e.g. path/to/pdf/files/", type=str)
-    parser.add_argument("-o", "--txt_dir", help="txt files folder e.g. path/to/txt/files/", type=str)
-    parser.add_argument("-r", "--resolution", help="image resolution", type=int,default=100)
-    args = parser.parse_args()
-
-    pdf_dir = args.pdf_dir
-    txt_dir = args.txt_dir
-    resolution=arg.resolution
-
-    convert_pdf_into_directory(pdf_dir,txt_dir,resolution)
